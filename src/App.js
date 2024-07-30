@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Display from './components/display';
+import Keypad from './components/keyboard';
 import './App.css';
 
 function App() {
+  const [expression, setExpression] = useState('');
+
+  const handleButtonClick = (value) => {
+    if (value === '=') {
+      try {
+        setExpression(eval(expression).toString());
+      } catch {
+        setExpression('Error');
+      }
+    } else if (value === 'C') {
+      setExpression('');
+    } else {
+      setExpression(expression + value);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className="calculator">
+        <h1>Salam Aleykum to my Calaculator!</h1>
+        <Display expression={expression}/>
+        <Keypad onButtonClick={handleButtonClick}/>
+      </div>
   );
 }
 
